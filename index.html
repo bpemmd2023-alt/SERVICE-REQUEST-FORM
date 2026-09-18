@@ -276,7 +276,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
 <div class="overlay" id="modalNew">
   <div class="modal wide">
     <div class="modal-head">
-      <div><div class="t1">Section 1 · Requestor</div><h3>แจ้งงานซ่อมใหม่</h3></div>
+      <div><div class="t1" id="modalNewEyebrow">Section 1 · Requestor</div><h3 id="modalNewTitle">แจ้งงานซ่อมใหม่</h3></div>
       <button class="x" onclick="closeModal('modalNew')">✕</button>
     </div>
     <div class="modal-body">
@@ -370,7 +370,8 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
         <input type="text" id="fRequestedBy" placeholder="ชื่อ-นามสกุล">
       </div>
       <div class="field">
-        <label>ลายเซ็นผู้แจ้ง (Signature) <span class="req">*</span></label>
+        <label>ลายเซ็นผู้แจ้ง (Signature) <span class="req" id="sigNewReq">*</span></label>
+        <div class="field hint" id="sigNewEditHint" style="display:none;margin-top:-4px;margin-bottom:6px;">เว้นว่างไว้หากไม่ต้องการเปลี่ยนลายเซ็นเดิม</div>
         <div class="sigwrap"><canvas id="sigNew"></canvas><div class="sig-placeholder" id="sigNewPh">เซ็นชื่อในกรอบนี้ (ลากด้วยเมาส์หรือนิ้ว)</div></div>
         <div class="sig-tools"><span></span><button class="clear" onclick="clearSig('sigNew')">ล้างลายเซ็น</button></div>
         <div class="sig-or">— หรือ —</div>
@@ -382,7 +383,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
     </div>
     <div class="modal-foot">
       <button class="btn btn-outline" onclick="closeModal('modalNew')">ยกเลิก</button>
-      <button class="btn btn-primary" onclick="submitNewRequest()">ส่งใบแจ้งซ่อม</button>
+      <button class="btn btn-primary" id="modalNewSubmitBtn" onclick="submitNewRequest()">ส่งใบแจ้งซ่อม</button>
     </div>
   </div>
 </div>
@@ -396,6 +397,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
     </div>
     <div class="modal-body" id="detailBody"></div>
     <div class="modal-foot">
+      <button class="btn btn-outline" onclick="openEditRequest(activeRequestId)">✏️ แก้ไขข้อมูล</button>
       <button class="btn btn-outline" onclick="openReport(activeRequestId)">📄 พิมพ์รายงาน (Checking List)</button>
       <button class="btn btn-outline" onclick="closeModal('modalDetail')">ปิด</button>
     </div>
@@ -415,7 +417,8 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
         <input type="text" id="personName" placeholder="ชื่อ-นามสกุล">
       </div>
       <div class="field">
-        <label>ลายเซ็น (Signature) <span class="req">*</span></label>
+        <label>ลายเซ็น (Signature) <span class="req" id="personSigReq">*</span></label>
+        <div class="field hint" id="personSigEditHint" style="display:none;margin-top:-4px;margin-bottom:6px;">เว้นว่างไว้หากไม่ต้องการเปลี่ยนลายเซ็นเดิม</div>
         <div class="sigwrap"><canvas id="sigPerson"></canvas><div class="sig-placeholder" id="sigPersonPh">เซ็นชื่อในกรอบนี้ (ลากด้วยเมาส์หรือนิ้ว)</div></div>
         <div class="sig-tools"><span></span><button class="clear" onclick="clearSig('sigPerson')">ล้างลายเซ็น</button></div>
         <div class="sig-or">— หรือ —</div>
@@ -440,7 +443,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
 <div class="overlay" id="modalMaint">
   <div class="modal wide">
     <div class="modal-head">
-      <div><div class="t1">Section 2 · Maintenance</div><h3>บันทึกการซ่อมบำรุง</h3></div>
+      <div><div class="t1" id="modalMaintEyebrow">Section 2 · Maintenance</div><h3 id="modalMaintTitle">บันทึกการซ่อมบำรุง</h3></div>
       <button class="x" onclick="closeModal('modalMaint')">✕</button>
     </div>
     <div class="modal-body">
@@ -474,7 +477,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
     </div>
     <div class="modal-foot">
       <button class="btn btn-outline" onclick="closeModal('modalMaint')">ยกเลิก</button>
-      <button class="btn btn-primary" onclick="submitMaintenance()">บันทึกและดำเนินการต่อ</button>
+      <button class="btn btn-primary" id="modalMaintSubmitBtn" onclick="submitMaintenance()">บันทึกและดำเนินการต่อ</button>
     </div>
   </div>
 </div>
@@ -483,7 +486,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
 <div class="overlay" id="modalTech">
   <div class="modal wide">
     <div class="modal-head">
-      <div><div class="t1">Section 3 · Acknowledge</div><h3>ช่างผู้ปฏิบัติงาน &amp; ผลทดสอบ</h3></div>
+      <div><div class="t1" id="modalTechEyebrow">Section 3 · Acknowledge</div><h3 id="modalTechTitle">ช่างผู้ปฏิบัติงาน &amp; ผลทดสอบ</h3></div>
       <button class="x" onclick="closeModal('modalTech')">✕</button>
     </div>
     <div class="modal-body">
@@ -504,7 +507,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--paper);color:v
     </div>
     <div class="modal-foot">
       <button class="btn btn-outline" onclick="closeModal('modalTech')">ยกเลิก</button>
-      <button class="btn btn-primary" onclick="submitTechnicians()">บันทึกและดำเนินการต่อ</button>
+      <button class="btn btn-primary" id="modalTechSubmitBtn" onclick="submitTechnicians()">บันทึกและดำเนินการต่อ</button>
     </div>
   </div>
 </div>
@@ -712,9 +715,13 @@ async function generateJobCode(){
 }
 
 /* ============================================================
-   NEW REQUEST FLOW
+   NEW REQUEST FLOW  (also reused for Editing Section 1 of an
+   existing work order — see editMode / editingId below)
 ============================================================ */
-document.getElementById('btnNewRequest').addEventListener('click', ()=>{
+let editMode = false;
+let editingId = null;
+
+function resetNewRequestForm(){
   ['fSymptom','fLocation','fJobNo','fInformedDate','fRequestedDate','fDesc','fRequestedBy'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fMachine').value = '';
   document.getElementById('fMachineOther').value = '';
@@ -725,11 +732,63 @@ document.getElementById('btnNewRequest').addEventListener('click', ()=>{
   document.getElementById('fLicense').value='';
   delete document.getElementById('fLicense').dataset.dataurl;
   document.getElementById('fInformedDate').value = new Date().toISOString().slice(0,10);
+}
+
+document.getElementById('btnNewRequest').addEventListener('click', ()=>{
+  editMode = false; editingId = null;
+  document.getElementById('modalNewEyebrow').textContent = 'Section 1 · Requestor';
+  document.getElementById('modalNewTitle').textContent = 'แจ้งงานซ่อมใหม่';
+  document.getElementById('modalNewSubmitBtn').textContent = 'ส่งใบแจ้งซ่อม';
+  document.getElementById('sigNewReq').style.display = 'inline';
+  document.getElementById('sigNewEditHint').style.display = 'none';
+  resetNewRequestForm();
   openModal('modalNew');
   resizeSigPad('sigNew','sigNewPh');
   clearSig('sigNew');
 });
 document.getElementById('btnRefresh').addEventListener('click', loadRequests);
+
+// Opens the same Section-1 form pre-filled with an existing work order's data.
+// Leaving the signature blank keeps the original signature unchanged.
+function openEditRequest(id){
+  const r = REQUESTS.find(x=>x.id===id);
+  if(!r) return;
+  editMode = true; editingId = id;
+
+  document.getElementById('modalNewEyebrow').textContent = woLabel(r)+' · แก้ไขข้อมูล';
+  document.getElementById('modalNewTitle').textContent = 'แก้ไขใบแจ้งซ่อม (Section 1)';
+  document.getElementById('modalNewSubmitBtn').textContent = 'บันทึกการแก้ไข';
+  document.getElementById('sigNewReq').style.display = 'none';
+  document.getElementById('sigNewEditHint').style.display = 'block';
+
+  resetNewRequestForm();
+  if(r.work_type){ const c = document.querySelector(`#workTypeChoice .choice[data-val="${CSS.escape(r.work_type)}"]`); if(c) c.classList.add('on'); }
+  document.getElementById('fSymptom').value = r.symptom || '';
+  document.getElementById('fDept').value = r.department || '';
+
+  const machineIdx = MACHINES.findIndex(m=>m.name===r.machine_name);
+  if(r.machine_name && machineIdx>=0){
+    document.getElementById('fMachine').value = String(machineIdx);
+    document.getElementById('fMachineOther').style.display = 'none';
+  } else if(r.machine_name){
+    document.getElementById('fMachine').value = '__OTHER__';
+    document.getElementById('fMachineOther').style.display = 'block';
+    document.getElementById('fMachineOther').value = r.machine_name;
+  }
+  document.getElementById('fEquipmentNo').value = r.equipment_no || '';
+  document.getElementById('fLocation').value = r.location || '';
+  document.getElementById('fJobNo').value = r.job_no || '';
+  document.getElementById('fInformedDate').value = r.informed_date || '';
+  document.getElementById('fRequestedDate').value = r.requested_date || '';
+  if(r.requirement){ const c = document.querySelector(`#reqChoice .choice[data-val="${CSS.escape(r.requirement)}"]`); if(c) c.classList.add('on'); }
+  document.getElementById('fDesc').value = r.description || '';
+  document.getElementById('fRequestedBy').value = r.requested_by || '';
+
+  closeModal('modalDetail');
+  openModal('modalNew');
+  resizeSigPad('sigNew','sigNewPh');
+  clearSig('sigNew'); // blank = keep existing signature on save
+}
 
 async function submitNewRequest(){
   const symptom = document.getElementById('fSymptom').value.trim();
@@ -742,9 +801,8 @@ async function submitNewRequest(){
   if(!symptom){ toast('กรุณากรอกอาการ/ปัญหา'); return; }
   if(!dept){ toast('กรุณาเลือกแผนก'); return; }
   if(!requestedBy){ toast('กรุณากรอกชื่อผู้แจ้ง'); return; }
-  if(!sig){ toast('กรุณาเซ็นชื่อผู้แจ้ง หรืออัปโหลดรูปลายเซ็น'); return; }
+  if(!editMode && !sig){ toast('กรุณาเซ็นชื่อผู้แจ้ง หรืออัปโหลดรูปลายเซ็น'); return; }
 
-  const jobCode = await generateJobCode();
   const machineSelVal = document.getElementById('fMachine').value;
   let machineName;
   if(machineSelVal === '__OTHER__'){
@@ -756,7 +814,6 @@ async function submitNewRequest(){
   }
 
   const payload = {
-    job_code: jobCode,
     work_type: workType,
     symptom,
     department: dept,
@@ -768,16 +825,26 @@ async function submitNewRequest(){
     job_no: document.getElementById('fJobNo').value.trim(),
     requirement: getChoiceVal('reqChoice'),
     description: document.getElementById('fDesc').value.trim(),
-    requested_by: requestedBy,
-    requested_by_signature: sig,
-    status: 'pending'
+    requested_by: requestedBy
   };
+  if(sig) payload.requested_by_signature = sig; // only overwrite if re-signed
 
-  const {error} = await sb.from('service_requests').insert(payload);
-  if(error){ toast('เกิดข้อผิดพลาด: '+error.message); console.error(error); return; }
-  toast('ส่งใบแจ้งซ่อมเรียบร้อยแล้ว เลขที่งาน '+jobCode);
-  closeModal('modalNew');
-  loadRequests();
+  if(editMode){
+    const {error} = await sb.from('service_requests').update(payload).eq('id', editingId);
+    if(error){ toast('เกิดข้อผิดพลาด: '+error.message); console.error(error); return; }
+    toast('บันทึกการแก้ไขเรียบร้อยแล้ว');
+    closeModal('modalNew');
+    await loadRequests();
+    openDetail(editingId);
+  } else {
+    payload.job_code = await generateJobCode();
+    payload.status = 'pending';
+    const {error} = await sb.from('service_requests').insert(payload);
+    if(error){ toast('เกิดข้อผิดพลาด: '+error.message); console.error(error); return; }
+    toast('ส่งใบแจ้งซ่อมเรียบร้อยแล้ว เลขที่งาน '+payload.job_code);
+    closeModal('modalNew');
+    loadRequests();
+  }
 }
 
 /* ============================================================
@@ -928,10 +995,8 @@ function openDetail(id){
     </div>`;
 
   html += `<div class="section-title">อนุมัติ / รับทราบ</div>`;
-  html += personLine('Approved By (ผู้อนุมัติ)', r.approved_by, r.approved_by_signature, r.approved_at, null,
-      !r.approved_by ? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('approve')">Approved By</button>` : '');
-  html += personLine('Acknowledge By (รับทราบโดย)', r.acknowledged_by, r.acknowledged_by_signature, r.acknowledged_at, null,
-      !r.acknowledged_by ? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('acknowledge')">Acknowledge By</button>` : '');
+  html += personLine('approve', r);
+  html += personLine('acknowledge', r);
 
   if(stage!=='pending'){
     html += `<div class="section-title">Section 2 · Maintenance</div>`;
@@ -943,6 +1008,7 @@ function openDetail(id){
           วิธีแก้ปัญหา: ${escapeHtml(r.solution||'-')}
         </div>
         ${expenses.length? `<div class="tl-detail" style="margin-top:6px;"><b>ค่าใช้จ่าย:</b><br>${expenses.map(e=>`- ${escapeHtml(e.item||'-')} : ${parseFloat(e.price||0).toFixed(2)} บาท`).join('<br>')}<br><b>รวม: ${expTotal.toFixed(2)} บาท</b></div>`:''}
+        <div class="tl-actions"><button class="btn btn-sm btn-outline" onclick="openMaintModal(true)">✏️ แก้ไขข้อมูลการซ่อมบำรุง</button></div>
       </div></div>`;
     } else {
       html += `<div class="tl-item"><div class="tl-dot off"></div><div class="tl-content">
@@ -966,15 +1032,12 @@ function openDetail(id){
       <div class="tl-detail">${techs.length? techs.map(t=>escapeHtml(t.name)).join(', ') : 'ยังไม่ได้ระบุรายชื่อช่าง'}</div>
       ${techs.length? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">${techs.filter(t=>t.signature).map(t=>`<img class="tl-sig" style="width:120px;" src="${t.signature}">`).join('')}</div>`:''}
       ${photos.length? `<div class="photo-grid">${photos.map(p=>`<div class="photo-thumb"><img src="${p.photo}" onclick="openLightbox('${p.photo}')"></div>`).join('')}</div>`:''}
-      ${!techs.length? `<div class="tl-actions"><button class="btn btn-sm btn-primary" onclick="openTechModal()">＋ เพิ่มรายชื่อช่าง / ผลทดสอบ</button></div>`:''}
+      <div class="tl-actions">${techs.length? `<button class="btn btn-sm btn-outline" onclick="openTechModal(true)">✏️ แก้ไขช่าง / Checklist / รูปภาพ</button>` : `<button class="btn btn-sm btn-primary" onclick="openTechModal()">＋ เพิ่มรายชื่อช่าง / ผลทดสอบ</button>`}</div>
     </div></div>`;
 
-    html += personLine('Agree / Acknowledge by', r.agree_by, r.agree_by_signature, r.agree_at, null,
-      (!r.agree_by && techs.length) ? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('agree')">Agree / Acknowledge by</button>` : '');
-    html += personLine('Controlled by (Manager/Supervisor Maintenance)', r.controlled_by, r.controlled_by_signature, r.controlled_at, null,
-      (!r.controlled_by && techs.length) ? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('control')">Controlled by</button>` : '');
-    html += personLine('User (ผู้ใช้งาน)', r.user_ack_by, r.user_ack_signature, r.user_ack_at, r.user_ack_remark,
-      (!r.user_ack_by && techs.length) ? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('user')">User (ผู้ใช้งาน)</button>` : '');
+    html += personLine('agree', r, techs.length>0);
+    html += personLine('control', r, techs.length>0);
+    html += personLine('user', r, techs.length>0);
   }
 
   if(stage==='done'){
@@ -988,17 +1051,26 @@ function openDetail(id){
   openModal('modalDetail');
 }
 
-function personLine(label, name, sig, at, remark, actionHtml){
+// kind: 'approve' | 'acknowledge' | 'agree' | 'control' | 'user'
+// canAdd: whether the "add / fill in" action should show when not yet set (defaults to true)
+function personLine(kind, r, canAdd){
+  const cfg = PERSON_CONFIG[kind];
+  const name = r[cfg.field];
+  const sig = r[cfg.sigField];
+  const at = r[cfg.timeField];
+  const remark = cfg.remark ? r[cfg.remarkField] : null;
   if(!name){
+    const show = canAdd === undefined ? true : canAdd;
     return `<div class="tl-item"><div class="tl-dot off"></div><div class="tl-content">
-      <div class="tl-title">${label}</div>
-      <div class="tl-actions">${actionHtml||''}</div>
+      <div class="tl-title">${cfg.title}</div>
+      <div class="tl-actions">${show? `<button class="btn btn-sm btn-primary" onclick="openPersonModal('${kind}')">${cfg.title}</button>` : ''}</div>
     </div></div>`;
   }
   return `<div class="tl-item"><div class="tl-dot on"></div><div class="tl-content">
-    <div class="tl-title"><span>${label}: ${escapeHtml(name)}</span><span class="tl-time">${fmtDateTime(at)}</span></div>
+    <div class="tl-title"><span>${cfg.title}: ${escapeHtml(name)}</span><span class="tl-time">${fmtDateTime(at)}</span></div>
     ${remark? `<div class="tl-detail">หมายเหตุ: ${escapeHtml(remark)}</div>`:''}
     ${sig? `<img class="tl-sig" src="${sig}">`:''}
+    <div class="tl-actions"><button class="btn btn-sm btn-outline" onclick="openPersonModal('${kind}', true)">✏️ แก้ไข</button></div>
   </div></div>`;
 }
 
@@ -1013,25 +1085,29 @@ const PERSON_CONFIG = {
   user:        {eyebrow:'SECTION 3 · USER', title:'User (ผู้ใช้งาน)', field:'user_ack_by', sigField:'user_ack_signature', timeField:'user_ack_at', remark:true, remarkField:'user_ack_remark'}
 };
 
-function openPersonModal(kind){
+function openPersonModal(kind, isEdit){
   const cfg = PERSON_CONFIG[kind];
-  document.getElementById('personEyebrow').textContent = cfg.eyebrow;
+  const r = REQUESTS.find(x=>x.id===activeRequestId) || {};
+  document.getElementById('personEyebrow').textContent = cfg.eyebrow + (isEdit? ' · แก้ไข' : '');
   document.getElementById('personTitle').textContent = cfg.title;
-  document.getElementById('personName').value = '';
-  document.getElementById('personRemark').value = '';
+  document.getElementById('personName').value = isEdit ? (r[cfg.field]||'') : '';
+  document.getElementById('personRemark').value = (isEdit && cfg.remark) ? (r[cfg.remarkField]||'') : '';
   document.getElementById('personRemarkWrap').style.display = cfg.remark ? 'block' : 'none';
   document.getElementById('personLicenseChip').innerHTML = '';
   document.getElementById('personLicense').value = '';
   delete document.getElementById('personLicense').dataset.dataurl;
+  document.getElementById('personSigReq').style.display = isEdit ? 'none' : 'inline';
+  document.getElementById('personSigEditHint').style.display = isEdit ? 'block' : 'none';
+  document.getElementById('personSubmitBtn').textContent = isEdit ? 'บันทึกการแก้ไข' : 'ยืนยัน';
 
   document.getElementById('personSubmitBtn').onclick = async ()=>{
     const name = document.getElementById('personName').value.trim();
     const sig = getSignatureValue('sigPerson','personLicense');
     if(!name){ toast('กรุณากรอกชื่อ-นามสกุล'); return; }
-    if(!sig){ toast('กรุณาเซ็นชื่อ หรืออัปโหลดรูปลายเซ็น'); return; }
+    if(!isEdit && !sig){ toast('กรุณาเซ็นชื่อ หรืออัปโหลดรูปลายเซ็น'); return; }
     const update = {};
     update[cfg.field] = name;
-    update[cfg.sigField] = sig;
+    if(sig) update[cfg.sigField] = sig; // blank in edit mode keeps the existing signature
     update[cfg.timeField] = new Date().toISOString();
     if(cfg.remark) update[cfg.remarkField] = document.getElementById('personRemark').value.trim();
 
@@ -1040,8 +1116,8 @@ function openPersonModal(kind){
 
     closeModal('modalPerson');
     await loadRequests();
-    const r = REQUESTS.find(x=>x.id===activeRequestId);
-    if((kind==='approve'||kind==='acknowledge') && r.approved_by && r.acknowledged_by){
+    const updated = REQUESTS.find(x=>x.id===activeRequestId);
+    if(!isEdit && (kind==='approve'||kind==='acknowledge') && updated.approved_by && updated.acknowledged_by && !updated.maintenance_done_at){
       toast('อนุมัติและรับทราบครบถ้วน — เปิดฟอร์ม Maintenance');
       openMaintModal();
       return;
@@ -1068,14 +1144,35 @@ async function finalizeIfReady(){
    MAINTENANCE MODAL (Section 2)
 ============================================================ */
 let expenseRowCount = 0, checkRowCount = 0, partRowCount = 0;
+let editingMaint = false;
 
-function openMaintModal(){
-  document.getElementById('mStart').value = '';
-  document.getElementById('mFinish').value = '';
-  document.getElementById('mTotal').value = '';
-  document.getElementById('mSolution').value = '';
-  document.getElementById('expRows').innerHTML = ''; expenseRowCount = 0; addExpenseRow();
-  document.getElementById('partRows').innerHTML = ''; partRowCount = 0; addPartRow();
+function toDatetimeLocal(iso){
+  const d = new Date(iso);
+  const pad = n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function openMaintModal(isEdit){
+  editingMaint = !!isEdit;
+  const r = REQUESTS.find(x=>x.id===activeRequestId) || {};
+  document.getElementById('modalMaintEyebrow').textContent = 'Section 2 · Maintenance' + (editingMaint? ' · แก้ไข' : '');
+  document.getElementById('modalMaintTitle').textContent = editingMaint ? 'แก้ไขข้อมูลการซ่อมบำรุง' : 'บันทึกการซ่อมบำรุง';
+  document.getElementById('modalMaintSubmitBtn').textContent = editingMaint ? 'บันทึกการแก้ไข' : 'บันทึกและดำเนินการต่อ';
+
+  document.getElementById('mStart').value = (editingMaint && r.start_time) ? toDatetimeLocal(r.start_time) : '';
+  document.getElementById('mFinish').value = (editingMaint && r.finish_time) ? toDatetimeLocal(r.finish_time) : '';
+  computeTotal();
+  document.getElementById('mSolution').value = editingMaint ? (r.solution||'') : '';
+
+  document.getElementById('expRows').innerHTML = ''; expenseRowCount = 0;
+  const exps = editingMaint ? (r.service_request_expenses||[]) : [];
+  if(exps.length){ exps.forEach(e=>addExpenseRow(e.item, e.price)); } else { addExpenseRow(); }
+  updateExpTotal();
+
+  document.getElementById('partRows').innerHTML = ''; partRowCount = 0;
+  const parts = editingMaint ? (r.service_request_parts||[]) : [];
+  if(parts.length){ parts.forEach(p=>addPartRow(p.part_name, p.quantity)); } else { addPartRow(); }
+
   closeModal('modalDetail');
   openModal('modalMaint');
 }
@@ -1095,14 +1192,14 @@ function computeTotal(){
     document.getElementById('mTotal').value = '';
   }
 }
-function addExpenseRow(){
+function addExpenseRow(item, price){
   expenseRowCount++;
   const id = 'exp'+expenseRowCount;
   const div = document.createElement('div');
   div.className = 'dyn-row'; div.id = id;
   div.innerHTML = `
-    <div class="grow"><input type="text" placeholder="รายการ" class="expItem"></div>
-    <div style="width:140px;"><input type="number" placeholder="ราคา" class="expPrice" oninput="updateExpTotal()"></div>
+    <div class="grow"><input type="text" placeholder="รายการ" class="expItem" value="${escapeHtml(item||'')}"></div>
+    <div style="width:140px;"><input type="number" placeholder="ราคา" class="expPrice" value="${price!=null?price:''}" oninput="updateExpTotal()"></div>
     <button class="remove-x" onclick="document.getElementById('${id}').remove(); updateExpTotal();">✕</button>`;
   document.getElementById('expRows').appendChild(div);
 }
@@ -1143,14 +1240,36 @@ function addCheckRow(){
   document.getElementById('techChecklistRows').appendChild(div);
   bindChecklistChoice(div);
 }
-// Loads the machine's fixed checklist template into the Technician modal,
-// or falls back to a free-form add-your-own-items list if no template matches.
-function loadTechChecklist(request){
+// Loads the checklist into the Technician modal: previously-saved answers when
+// editing, otherwise the machine's fixed template, or a free-form list as fallback.
+function loadTechChecklist(request, isEdit){
   const container = document.getElementById('techChecklistRows');
   const note = document.getElementById('techChecklistNote');
   const addBtn = document.getElementById('btnAddChecklistRow');
   container.innerHTML = '';
   checkRowCount = 0;
+
+  const existingRows = (isEdit && request.service_request_checklist && request.service_request_checklist.length)
+    ? request.service_request_checklist.slice().sort((a,b)=>(a.item_no||0)-(b.item_no||0))
+    : null;
+
+  if(existingRows){
+    note.textContent = 'แก้ไขรายการตรวจสอบที่บันทึกไว้ — ติ๊กประเภทงานและใส่หมายเหตุตามจริง';
+    addBtn.style.display = 'inline-block';
+    existingRows.forEach(c=>{
+      checkRowCount++;
+      const id = 'chk'+checkRowCount;
+      const div = document.createElement('div');
+      div.className = 'dyn-row'; div.id = id;
+      div.innerHTML = checklistRowHtml(id, c.description, true);
+      container.appendChild(div);
+      bindChecklistChoice(div);
+      if(c.work_type){ const ch = div.querySelector(`.chkType .choice[data-val="${CSS.escape(c.work_type)}"]`); if(ch) ch.classList.add('on'); }
+      if(c.remark) div.querySelector('.chkRemark').value = c.remark;
+    });
+    return;
+  }
+
   const machine = findMachineByEqno(request.equipment_no) || (request.machine_name ? MACHINES.find(m=>m.name.toLowerCase()===String(request.machine_name).toLowerCase()) : null);
   if(machine && machine.items.length){
     note.textContent = `รายการตรวจสอบมาตรฐานของ "${machine.name}" (${machine.eqno}) — ติ๊กประเภทงานและใส่หมายเหตุตามจริง`;
@@ -1170,14 +1289,14 @@ function loadTechChecklist(request){
     addCheckRow();
   }
 }
-function addPartRow(){
+function addPartRow(part_name, quantity){
   partRowCount++;
   const id = 'part'+partRowCount;
   const div = document.createElement('div');
   div.className = 'dyn-row'; div.id = id;
   div.innerHTML = `
-    <div class="grow"><input type="text" placeholder="ชื่ออะไหล่ (Part name)" class="partName"></div>
-    <div style="width:120px;"><input type="text" placeholder="จำนวน (Qty)" class="partQty"></div>
+    <div class="grow"><input type="text" placeholder="ชื่ออะไหล่ (Part name)" class="partName" value="${escapeHtml(part_name||'')}"></div>
+    <div style="width:120px;"><input type="text" placeholder="จำนวน (Qty)" class="partQty" value="${escapeHtml(quantity||'')}"></div>
     <button class="remove-x" onclick="document.getElementById('${id}').remove();">✕</button>`;
   document.getElementById('partRows').appendChild(div);
 }
@@ -1190,12 +1309,20 @@ async function submitMaintenance(){
     start_time: new Date(startVal).toISOString(),
     finish_time: new Date(finishVal).toISOString(),
     total_time: document.getElementById('mTotal').value,
-    solution: document.getElementById('mSolution').value.trim(),
-    maintenance_done_at: new Date().toISOString(),
-    status: 'maintenance'
+    solution: document.getElementById('mSolution').value.trim()
   };
+  if(!editingMaint){
+    update.maintenance_done_at = new Date().toISOString();
+    update.status = 'maintenance';
+  }
   const {error} = await sb.from('service_requests').update(update).eq('id', activeRequestId);
   if(error){ toast('เกิดข้อผิดพลาด: '+error.message); return; }
+
+  if(editingMaint){
+    // replace expenses & parts wholesale so removed rows actually disappear
+    await sb.from('service_request_expenses').delete().eq('request_id', activeRequestId);
+    await sb.from('service_request_parts').delete().eq('request_id', activeRequestId);
+  }
 
   const expRows = [];
   document.querySelectorAll('#expRows .dyn-row').forEach(row=>{
@@ -1213,29 +1340,40 @@ async function submitMaintenance(){
   });
   if(partRows.length) await sb.from('service_request_parts').insert(partRows);
 
-  toast('บันทึกข้อมูลการซ่อมบำรุงเรียบร้อย');
+  toast(editingMaint ? 'บันทึกการแก้ไขข้อมูลการซ่อมบำรุงเรียบร้อย' : 'บันทึกข้อมูลการซ่อมบำรุงเรียบร้อย');
   closeModal('modalMaint');
   await loadRequests();
-  openTechModal();
+  if(editingMaint){ openDetail(activeRequestId); } else { openTechModal(); }
 }
 
 /* ============================================================
    TECHNICIANS + TEST PHOTOS MODAL (Section 3 pre-step)
 ============================================================ */
 let techRowCount = 0;
-function openTechModal(){
+let editingTech = false;
+function openTechModal(isEdit){
+  editingTech = !!isEdit;
+  const r = REQUESTS.find(x=>x.id===activeRequestId) || {};
+
+  document.getElementById('modalTechEyebrow').textContent = 'Section 3 · Acknowledge' + (editingTech? ' · แก้ไข' : '');
+  document.getElementById('modalTechTitle').textContent = editingTech ? 'แก้ไขช่างผู้ปฏิบัติงาน & ผลทดสอบ' : 'ช่างผู้ปฏิบัติงาน & ผลทดสอบ';
+  document.getElementById('modalTechSubmitBtn').textContent = editingTech ? 'บันทึกการแก้ไข' : 'บันทึกและดำเนินการต่อ';
+
   document.getElementById('techRows').innerHTML = '';
   techRowCount = 0;
-  addTechRow();
-  testPhotosData = [];
-  document.getElementById('testPhotoGrid').innerHTML = '';
+  const techs = editingTech ? (r.service_request_technicians||[]) : [];
+  if(techs.length){ techs.forEach(t=>addTechRow(t)); } else { addTechRow(); }
+
+  testPhotosData = editingTech ? (r.service_request_test_photos||[]).map(p=>p.photo) : [];
   document.getElementById('testPhotoInput').value = '';
-  const r = REQUESTS.find(x=>x.id===activeRequestId);
-  loadTechChecklist(r || {});
+  renderTestPhotoGrid();
+
+  loadTechChecklist(r, editingTech);
+
   closeModal('modalMaint'); closeModal('modalDetail');
   openModal('modalTech');
 }
-function addTechRow(){
+function addTechRow(existing){
   techRowCount++;
   const n = techRowCount;
   const id = 'tech'+n;
@@ -1245,13 +1383,15 @@ function addTechRow(){
   const chipId = 'techChip'+n;
   const div = document.createElement('div');
   div.className = 'tech-card'; div.id = id;
+  div.dataset.existingSig = (existing && existing.signature) ? existing.signature : '';
   div.innerHTML = `
     <div class="dyn-row" style="margin-bottom:10px;">
-      <div class="grow"><input type="text" placeholder="ชื่อ-นามสกุลช่างเทคนิค" class="techName"></div>
+      <div class="grow"><input type="text" placeholder="ชื่อ-นามสกุลช่างเทคนิค" class="techName" value="${escapeHtml(existing&&existing.name||'')}"></div>
       <button class="remove-x" onclick="document.getElementById('${id}').remove();">✕</button>
     </div>
     <div class="field" style="margin-bottom:6px;">
-      <label style="font-size:11.5px;">ลายเซ็นช่าง (Signature)</label>
+      <label style="font-size:11.5px;">ลายเซ็นช่าง (Signature)${existing&&existing.signature? ' — เว้นว่างไว้เพื่อคงลายเซ็นเดิม':''}</label>
+      ${existing&&existing.signature? `<div style="margin-bottom:6px;"><img src="${existing.signature}" style="height:50px;border:1px solid var(--line);border-radius:6px;cursor:zoom-in;" onclick="openLightbox('${existing.signature}')"></div>`:''}
       <div class="sigwrap small"><canvas id="${sigId}"></canvas><div class="sig-placeholder" id="${phId}">เซ็นชื่อในกรอบนี้</div></div>
       <div class="sig-tools"><span></span><button class="clear" onclick="clearSig('${sigId}')">ล้างลายเซ็น</button></div>
       <div class="sig-or">— หรือ —</div>
@@ -1283,10 +1423,15 @@ async function submitTechnicians(){
     if(!name) return;
     const canvas = card.querySelector('canvas');
     const fileInput = card.querySelector('input[type=file]');
-    const sig = getSignatureValue(canvas.id, fileInput.id);
+    const newSig = getSignatureValue(canvas.id, fileInput.id);
+    const sig = newSig || card.dataset.existingSig || null;
     rows.push({request_id: activeRequestId, name, signature: sig, license_file: null});
   });
   if(!rows.length){ toast('กรุณากรอกชื่อช่างเทคนิคอย่างน้อย 1 คน'); return; }
+
+  if(editingTech){
+    await sb.from('service_request_technicians').delete().eq('request_id', activeRequestId);
+  }
   const {error} = await sb.from('service_request_technicians').insert(rows);
   if(error){ toast('เกิดข้อผิดพลาด: '+error.message); return; }
 
@@ -1301,14 +1446,20 @@ async function submitTechnicians(){
       checkRows.push({request_id: activeRequestId, item_no:n, description, work_type: typeChoice? typeChoice.dataset.val : null, remark});
     }
   });
+  if(editingTech){
+    await sb.from('service_request_checklist').delete().eq('request_id', activeRequestId);
+  }
   if(checkRows.length) await sb.from('service_request_checklist').insert(checkRows);
 
+  if(editingTech){
+    await sb.from('service_request_test_photos').delete().eq('request_id', activeRequestId);
+  }
   if(testPhotosData.length){
     const photoRows = testPhotosData.map(p=>({request_id: activeRequestId, photo: p}));
     await sb.from('service_request_test_photos').insert(photoRows);
   }
 
-  toast('บันทึกรายชื่อช่างและผลทดสอบเรียบร้อย');
+  toast(editingTech ? 'บันทึกการแก้ไขเรียบร้อย' : 'บันทึกรายชื่อช่างและผลทดสอบเรียบร้อย');
   closeModal('modalTech');
   await loadRequests();
   openDetail(activeRequestId);
